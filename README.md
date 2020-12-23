@@ -11,4 +11,5 @@ A collection of useful libraries for the [uav_ros_stack](https://github.com/lmar
 ## Description
 
 * **[param_util.hpp](include/uav_ros_lib/param_util.hpp)** - Useful functions for loading values from the ROS parameter server
-* **[TopicHandler](include/uav_ros_lib/topic_handler.hpp)** - A Helper class for handling ROS message subscriptions
+* **[TopicHandler](include/uav_ros_lib/topic_handler.hpp)** - A helper class for handling ROS message subscriptions
+* **[ReconfigureHandler](include/uav_ros_lib/reconfigure_handler.hpp)** - A helper class for handling ROS reconfigure server
