@@ -11,10 +11,10 @@ A collection of useful libraries for the [uav_ros_stack](https://github.com/lmar
 ## Description
 
 ### General
-* **[param_util namespace](include/uav_ros_lib/param_util.hpp)** - Useful functions for loading values from the ROS parameter server
-* **[nonlinear_filters namespace](include/uav_ros_lib/nonlinear_filters.hpp)** - Implementation of simple, commonly used nonlinear filters
-* **[TopicHandler](include/uav_ros_lib/topic_handler.hpp)** - A helper class for handling ROS message subscriptions
-* **[ReconfigureHandler](include/uav_ros_lib/reconfigure_handler.hpp)** - A helper class for handling ROS reconfigure server
+* **[param_util namespace](https://github.com/lmark1/uav_ros_lib/include/uav_ros_lib/param_util.hpp)** - Useful functions for loading values from the ROS parameter server
+* **[nonlinear_filters namespace](https://github.com/lmark1/uav_ros_lib/include/uav_ros_lib/nonlinear_filters.hpp)** - Implementation of simple, commonly used nonlinear filters
+* **[TopicHandler](https://github.com/lmark1/uav_ros_lib/include/uav_ros_lib/topic_handler.hpp)** - A helper class for handling ROS message subscriptions
+* **[ReconfigureHandler](https://github.com/lmark1/uav_ros_lib/include/uav_ros_lib/reconfigure_handler.hpp)** - A helper class for handling ROS reconfigure server
 
 ## Estimation
 * **[KalmanFilterVanilla](include/uav_ros_lib/kalman_filter_vanilla.hpp)** - A straightforward implementation of a single measurement Discrete Kalman Filter
