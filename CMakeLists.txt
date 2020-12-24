@@ -14,11 +14,22 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 
-catkin_package(INCLUDE_DIRS include LIBRARIES nfilt DEPENDS EIGEN3)
+catkin_package(
+  INCLUDE_DIRS
+  include
+  LIBRARIES
+  nfilt
+  dkf_vanilla
+  DEPENDS
+  EIGEN3)
 
 # Nonlinear filters library
 add_library(nfilt src/nonlinear_filters.cpp)
 target_link_libraries(nfilt ${catkin_LIBRARIES})
+
+# Kalman filter library
+add_library(dkf_vanilla src/kalman_filter_vanilla.cpp)
+target_link_libraries(dkf_vanilla ${catkin_LIBRARIES})
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS})
 install(DIRECTORY include/${PROJECT_NAME}/
