@@ -22,6 +22,7 @@ catkin_package(
   dkf_vanilla
   global_to_local
   ros_convert
+  trajectory_helper
   DEPENDS
   EIGEN3)
 
@@ -32,6 +33,10 @@ target_link_libraries(nfilt ${catkin_LIBRARIES})
 # Convertsion util library
 add_library(ros_convert src/ros_convert.cpp)
 target_link_libraries(ros_convert ${catkin_LIBRARIES})
+
+# Trajectory helper library
+add_library(trajectory_helper src/ros_convert.cpp)
+target_link_libraries(trajectory_helper ${catkin_LIBRARIES} ros_convert)
 
 # Global to local transformation library
 add_library(global_to_local src/global_to_local.cpp)

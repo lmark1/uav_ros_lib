@@ -1,4 +1,4 @@
-#include <uav_ros_lib/kalman_filter_vanilla.hpp>
+#include <uav_ros_lib/estimation/kalman_filter_vanilla.hpp>
 
 KalmanFilterVanilla::KalmanFilterVanilla()
 {
