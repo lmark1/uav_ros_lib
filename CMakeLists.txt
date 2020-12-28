@@ -20,12 +20,17 @@ catkin_package(
   LIBRARIES
   nfilt
   dkf_vanilla
+  global_to_local
   DEPENDS
   EIGEN3)
 
 # Nonlinear filters library
 add_library(nfilt src/nonlinear_filters.cpp)
 target_link_libraries(nfilt ${catkin_LIBRARIES})
+
+# Global to local transformation library
+add_library(global_to_local src/global_to_local.cpp)
+target_link_libraries(global_to_local ${catkin_LIBRARIES})
 
 # Kalman filter library
 add_library(dkf_vanilla src/kalman_filter_vanilla.cpp)
