@@ -33,19 +33,3 @@ double nonlinear_filters::filterPT1(double previousValue,
   double b = K * Ts / (T + Ts);
   return (a * previousValue + b * currentValue);
 }
-
-double wrapMax(double x, double max)
-{
-  /* integer math: `(max + x % max) % max` */
-  return fmod(max + fmod(x, max), max);
-}
-
-double util::wrapMinMax(double x, double min, double max)
-{
-  return min + wrapMax(x - min, max - min);
-}
-
-double util::calculateYaw(double qx, double qy, double qz, double qw)
-{
-  return atan2(2 * (qw * qz + qx * qy), qw * qw + qx * qx - qy * qy - qz * qz);
-}

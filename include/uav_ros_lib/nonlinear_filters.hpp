@@ -43,29 +43,4 @@ double
   
 }// namespace nonlinear_filters
 
-namespace util {
-
-/**
- * @brief Wrap given value to the range [min, max]
- *
- * @param x An unwrapped value
- * @param min Minimum range value
- * @param max Maximum range value
- * @return A given value wrapped in [min, max] range
- */
-double wrapMinMax(double x, double min, double max);
-
-/**
- * @brief Calculate yaw from the given quaternion
- * 
- * @param qx
- * @param qy 
- * @param qz 
- * @param qw 
- * @return Calculated yaw from the given quaternion
- */
-double calculateYaw(double qx, double qy, double qz, double qw);
-
-}// namespace util
-
 #endif /* NONLINEAR_FILTERS_H */

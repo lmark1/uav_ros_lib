@@ -21,12 +21,17 @@ catkin_package(
   nfilt
   dkf_vanilla
   global_to_local
+  ros_convert
   DEPENDS
   EIGEN3)
 
 # Nonlinear filters library
 add_library(nfilt src/nonlinear_filters.cpp)
 target_link_libraries(nfilt ${catkin_LIBRARIES})
+
+# Convertsion util library
+add_library(ros_convert src/ros_convert.cpp)
+target_link_libraries(ros_convert ${catkin_LIBRARIES})
 
 # Global to local transformation library
 add_library(global_to_local src/global_to_local.cpp)
