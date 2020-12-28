@@ -18,6 +18,6 @@ Documentation can be found at [lmark1.github.io/uav_ros_lib](https://lmark1.gith
 * **[nonlinear_filters namespace](https://github.com/lmark1/uav_ros_lib/tree/main/include/uav_ros_lib/nonlinear_filters.hpp)** - Implementation of simple, commonly used nonlinear filters
 * **[TopicHandler](https://github.com/lmark1/uav_ros_lib/tree/main/include/uav_ros_lib/topic_handler.hpp)** - A helper class for handling ROS message subscriptions
 * **[ReconfigureHandler](https://github.com/lmark1/uav_ros_lib/tree/main/include/uav_ros_lib/reconfigure_handler.hpp)** - A helper class for handling ROS reconfigure server
-* **[GlobalToLocal](https://github.com/lmark1/uav_ros_lib/tree/main/include/global_to_local.cpp)** - A class used to transforming Lat,Lon,Alt to and from ENU coordinates
+* **[GlobalToLocal](https://github.com/lmark1/uav_ros_lib/tree/main/include/global_to_local.cpp)** - A class used for transforming [Lat,Lon,Alt] to and from ENU coordinates
 ## Estimation
 * **[KalmanFilterVanilla](https://github.com/lmark1/uav_ros_lib/tree/main/include/uav_ros_lib/kalman_filter_vanilla.hpp)** - A straightforward implementation of a single measurement Discrete Kalman Filter
