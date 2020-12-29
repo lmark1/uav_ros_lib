@@ -80,3 +80,12 @@ void ConstantVelocityLKF::initializeInternal()
   process_noise_position_stddev_ = initial_pos_stddev;
   process_noise_velocity_stddev_ = initial_vel_stddev;
 }
+
+void ConstantVelocityLKF::parametersCallback(typename kf_base::config_t &configMsg,
+  uint32_t /* unnused */)
+{
+  setMeasureNoise(configMsg.noise_mv);
+  setPositionNoise(configMsg.noise_pos);
+  setVelocityNoise(configMsg.noise_vel);
+  ROS_INFO_STREAM(*this);
+}

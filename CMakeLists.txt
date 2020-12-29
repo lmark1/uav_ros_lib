@@ -15,7 +15,8 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 
-generate_dynamic_reconfigure_options(cfg/ConstantVelocityLKFParameters.cfg)
+generate_dynamic_reconfigure_options(cfg/ConstantVelocityLKFParameters.cfg
+                                     cfg/ConstantAccelerationLKFParameters.cfg)
 
 catkin_package(
   INCLUDE_DIRS
@@ -57,6 +58,12 @@ target_link_libraries(dkf_vanilla ${catkin_LIBRARIES})
 add_library(constant_velocity_lkf src/constant_velocity_lkf.cpp)
 target_link_libraries(constant_velocity_lkf ${catkin_LIBRARIES})
 add_dependencies(constant_velocity_lkf ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+
+# Constant acceleration LKF library
+add_library(constant_acceleration_lkf src/constant_velocity_lkf.cpp)
+target_link_libraries(constant_acceleration_lkf ${catkin_LIBRARIES})
+add_dependencies(constant_acceleration_lkf ${catkin_EXPORTED_TARGETS}
+                 ${PROJECT_NAME}_gencfg)
 
 install(DIRECTORY include/${PROJECT_NAME}/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
