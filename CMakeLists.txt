@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.10.0)
 project(uav_ros_lib)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-find_package(catkin REQUIRED COMPONENTS roscpp dynamic_reconfigure mavros)
+find_package(catkin REQUIRED COMPONENTS roscpp dynamic_reconfigure mavros
+                                        dynamic_reconfigure)
 
 # Find Eigen
 find_package(Eigen3)
@@ -14,6 +15,8 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 
+generate_dynamic_reconfigure_options(cfg/ConstantVelocityLKFParameters.cfg)
+
 catkin_package(
   INCLUDE_DIRS
   include
@@ -23,8 +26,12 @@ catkin_package(
   global_to_local
   ros_convert
   trajectory_helper
+  constant_velocity_lkf
   DEPENDS
   EIGEN3)
+
+include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS}
+                    ${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
 
 # Nonlinear filters library
 add_library(nfilt src/nonlinear_filters.cpp)
@@ -46,6 +53,10 @@ target_link_libraries(global_to_local ${catkin_LIBRARIES})
 add_library(dkf_vanilla src/kalman_filter_vanilla.cpp)
 target_link_libraries(dkf_vanilla ${catkin_LIBRARIES})
 
-include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS})
+# Constant velocity LKF library
+add_library(constant_velocity_lkf src/constant_velocity_lkf.cpp)
+target_link_libraries(constant_velocity_lkf ${catkin_LIBRARIES})
+add_dependencies(constant_velocity_lkf ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+
 install(DIRECTORY include/${PROJECT_NAME}/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
