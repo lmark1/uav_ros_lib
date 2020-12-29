@@ -28,6 +28,7 @@ catkin_package(
   ros_convert
   trajectory_helper
   constant_velocity_lkf
+  constant_acceleration_lkf
   DEPENDS
   EIGEN3)
 
@@ -60,7 +61,7 @@ target_link_libraries(constant_velocity_lkf ${catkin_LIBRARIES})
 add_dependencies(constant_velocity_lkf ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
 # Constant acceleration LKF library
-add_library(constant_acceleration_lkf src/constant_velocity_lkf.cpp)
+add_library(constant_acceleration_lkf src/constant_acceleration_lkf.cpp)
 target_link_libraries(constant_acceleration_lkf ${catkin_LIBRARIES})
 add_dependencies(constant_acceleration_lkf ${catkin_EXPORTED_TARGETS}
                  ${PROJECT_NAME}_gencfg)

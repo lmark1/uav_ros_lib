@@ -52,7 +52,8 @@ void ConstantAccelerationLKF::parametersCallback(config_t &configMsg,
   ROS_INFO_STREAM(*this);
 }
 
-config_t ConstantAccelerationLKF::initializeParameters(ros::NodeHandle &nh)
+ConstantAccelerationLKF::kf_base::config_t ConstantAccelerationLKF::initializeParameters(
+  ros::NodeHandle &nh)
 {
   ROS_WARN("ConstantAccelerationLKF::initializeParameters()");
   // Setup dynamic reconfigure server

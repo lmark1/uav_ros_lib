@@ -47,26 +47,7 @@ public:
   }
 
 private:
-  void initializeInternal()
-  {
-    static constexpr auto initial_pos_stddev = 1;
-    static constexpr auto initial_vel_stddev = 10;
-    static constexpr auto initial_acc_stddev = 10;
-    static constexpr auto measurement_position_stddev = 1;
-    static constexpr auto measurement_acc_stddev = 10;
-
-    P_k_ << initial_pos_stddev * initial_pos_stddev, 0, 0, 0,
-      initial_vel_stddev * initial_vel_stddev, 0, 0, 0,
-      initial_acc_stddev * initial_acc_stddev;
-    R_ << measurement_position_stddev * measurement_position_stddev, 0, 0,
-      measurement_acc_stddev * measurement_acc_stddev;
-    x_k_ << 0, 0;
-    H_ << 1, 0, 0, 0, 0, 1;
-
-    process_noise_position_stddev_ = initial_pos_stddev;
-    process_noise_velocity_stddev_ = initial_vel_stddev;
-    process_noise_acceleration_stddev_ = initial_acc_stddev;
-  }
+  void initializeInternal();
 
   /**
    * @brief Sets the kalman filter parameter measurement noise
