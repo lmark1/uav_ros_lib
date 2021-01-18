@@ -30,6 +30,7 @@ catkin_package(
   trajectory_helper
   constant_velocity_lkf
   constant_acceleration_lkf
+  constant_acceleration_ukf
   DEPENDS
   EIGEN3)
 
