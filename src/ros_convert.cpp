@@ -54,7 +54,8 @@ tf2::Quaternion ros_convert::get_heading_quaternion(const double t_xStart,
   return q;
 }
 
-trajectory_msgs::MultiDOFJointTrajectoryPoint to_trajectory_point(const double x,
+trajectory_msgs::MultiDOFJointTrajectoryPoint ros_convert::to_trajectory_point(
+  const double x,
   const double y,
   const double z,
   const double qx,
@@ -79,10 +80,21 @@ trajectory_msgs::MultiDOFJointTrajectoryPoint to_trajectory_point(const double x
   return point;
 }
 
-trajectory_msgs::MultiDOFJointTrajectoryPoint
-  to_trajectory_point(const double x, const double y, const double z, const double yaw)
+trajectory_msgs::MultiDOFJointTrajectoryPoint ros_convert::to_trajectory_point(
+  const double x,
+  const double y,
+  const double z,
+  const double yaw)
 {
   tf2::Quaternion q;
   q.setRPY(0, 0, yaw);
   return to_trajectory_point(x, y, z, q.getX(), q.getY(), q.getZ(), q.getZ());
+}
+
+std::tuple<double, double, double> ros_convert::extract_odometry(
+  const nav_msgs::Odometry &odom)
+{
+  return {
+    odom.pose.pose.position.x, odom.pose.pose.position.y, odom.pose.pose.position.z
+  };
 }

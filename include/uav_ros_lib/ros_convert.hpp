@@ -3,7 +3,9 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include <trajectory_msgs/MultiDOFJointTrajectoryPoint.h>
+#include <nav_msgs/Odometry.h>
 #include <tf2/LinearMath/Quaternion.h>
+#include <tuple>
 
 namespace ros_convert {
 
@@ -99,6 +101,14 @@ trajectory_msgs::MultiDOFJointTrajectoryPoint to_trajectory_point(double x,
  */
 trajectory_msgs::MultiDOFJointTrajectoryPoint
   to_trajectory_point(double x, double y, double z, double yaw);
+
+/**
+ * @brief Extract position from the odometry message
+ * 
+ * @param odom 
+ * @return std::tuple<double, double, double> [x, y, z] odometry position
+ */
+std::tuple<double, double, double> extract_odometry(const nav_msgs::Odometry &odom);
 
 }// namespace ros_convert
 
