@@ -15,9 +15,9 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 
-generate_dynamic_reconfigure_options(cfg/ConstantVelocityLKFParameters.cfg
-                                     cfg/ConstantAccelerationLKFParameters.cfg
-                                     cfg/ConstantAccelerationUKFParameters.cfg)
+generate_dynamic_reconfigure_options(
+  cfg/ConstantVelocityLKFParameters.cfg cfg/ConstantAccelerationLKFParameters.cfg
+  cfg/ConstantAccelerationUKFParameters.cfg)
 
 catkin_package(
   INCLUDE_DIRS
@@ -31,11 +31,16 @@ catkin_package(
   constant_velocity_lkf
   constant_acceleration_lkf
   constant_acceleration_ukf
+  param_util
   DEPENDS
   EIGEN3)
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIRS}
                     ${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
+
+# param_util library
+add_library(param_util src/param_util.cpp)
+target_link_libraries(param_util ${catkin_LIBRARIES})
 
 # Nonlinear filters library
 add_library(nfilt src/nonlinear_filters.cpp)

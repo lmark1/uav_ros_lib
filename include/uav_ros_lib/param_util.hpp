@@ -38,7 +38,7 @@ Eigen::Matrix<double, nRow, nCol> loadMatrixOrThrow(ros::NodeHandle &t_nh,
   // Matrix is the correct size, assign it
   try {
     for (int i = 0; i < nRow; i++) {
-      for (int j = 0; j < nCol; j++) { matrix(i, j) = tmp_vec[i * nRow + j]; }
+      for (int j = 0; j < nCol; j++) { matrix(i, j) = tmp_vec[i * nCol + j]; }
     }
   } catch (std::runtime_error &e) {
     ROS_FATAL_STREAM("Loading param: [" << matrix_name << "] failed.");
@@ -49,6 +49,21 @@ Eigen::Matrix<double, nRow, nCol> loadMatrixOrThrow(ros::NodeHandle &t_nh,
   ROS_INFO_STREAM("Got param [" << matrix_name << "]\n" << matrix);
   return matrix;
 }
+
+/**
+ * @brief Attempt to load a dynamic matrix from the ROS parameter server or throw a
+ * runtimer error.
+ *
+ * @param t_nh A ROS node handle.
+ * @param matrix_name Name of the matrix parameter.
+ * @param row_count Number of matrix rows.
+ * @param col_count Number of matrix columns.
+ * @return Eigen::MatrixXd
+ */
+Eigen::MatrixXd loadMatrixOrThrow(ros::NodeHandle &t_nh,
+  const std::string &matrix_name,
+  int row_count,
+  int col_count);
 
 /**
  * @brief Attempt to get a value from the ROS parameter server or throws a runtime_error.
@@ -72,12 +87,13 @@ void getParamOrThrow(ros::NodeHandle &t_nh,
 }
 
 /**
- * @brief Attemps to return a value from the ROS parameter server or throws a runtime_error.
- * 
+ * @brief Attemps to return a value from the ROS parameter server or throws a
+ * runtime_error.
+ *
  * @tparam T Value Typename
  * @param nh A ROS node handle
  * @param param_name ROS parameter name
- * @return T 
+ * @return T
  */
 template<class T> T getParamOrThrow(ros::NodeHandle &nh, std::string param_name)
 {
