@@ -3,6 +3,8 @@
 
 #include <Eigen/Eigen>
 #include <ros/ros.h>
+#include <iostream>
+#include <vector>
 
 namespace param_util {
 
@@ -64,6 +66,26 @@ Eigen::MatrixXd loadMatrixOrThrow(ros::NodeHandle &t_nh,
   const std::string &matrix_name,
   int row_count,
   int col_count);
+
+/**
+ * @brief This output operator overload is needed to corrcly print out std::vector<T>
+ * parameter types in the getParamOrThrow(...) function.
+ * 
+ * @tparam T 
+ * @param o 
+ * @param vec 
+ * @return std::ostream& 
+ */
+template<class T>
+std::ostream& operator<<(std::ostream& o, const std::vector<T>& vec)
+{
+  o << "[";
+  for (const auto& el : vec) {
+    o << el << ", ";
+  }
+  o << "]";
+  return o;
+}
 
 /**
  * @brief Attempt to get a value from the ROS parameter server or throws a runtime_error.
