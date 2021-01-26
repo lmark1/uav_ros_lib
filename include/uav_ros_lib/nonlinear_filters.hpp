@@ -40,7 +40,17 @@ double deadzone(double value, double lowLimit, double highLimit);
  */
 double
   filterPT1(double previousValue, double currentValue, double T, double Ts, double K);
-  
+
+/**
+ * @brief Interpolate between two UAV heading angles
+ * 
+ * @param start Starting heading
+ * @param end Ending heading
+ * @param coeff Interpolate coefficient
+ * @return double Interpolated heading
+ */
+double interpolate_heading(double start, double end, double coeff);
+
 }// namespace nonlinear_filters
 
 #endif /* NONLINEAR_FILTERS_H */

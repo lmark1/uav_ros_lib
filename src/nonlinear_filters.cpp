@@ -33,3 +33,10 @@ double nonlinear_filters::filterPT1(double previousValue,
   double b = K * Ts / (T + Ts);
   return (a * previousValue + b * currentValue);
 }
+
+double nonlinear_filters::interpolate_heading(double start, double end, double coeff)
+{
+  double shortest_angle =
+    std::fmod((std::fmod(end - start, M_PI * 2.0)) + M_PI * 3.0, M_PI * 2) - M_PI;
+  return start * (1 - coeff) + std::fmod(shortest_angle * coeff , 2 * M_PI);
+}
