@@ -2,6 +2,7 @@
 #define ROS_CONVERT_HPP
 
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/Quaternion.h>
 #include <trajectory_msgs/MultiDOFJointTrajectoryPoint.h>
 #include <nav_msgs/Odometry.h>
 #include <tf2/LinearMath/Quaternion.h>
@@ -29,6 +30,14 @@ double wrapMinMax(double x, double min, double max);
  * @return Calculated yaw from the given quaternion
  */
 double calculateYaw(double qx, double qy, double qz, double qw);
+
+/**
+ * @brief Caculate yaw from the given quaternion object.
+ * 
+ * @param q 
+ * @return double 
+ */
+double calculateYaw(const geometry_msgs::Quaternion& q);
 
 /**
  * @brief Get the geometry_msgs::PoseStamped from given translation and rotation.

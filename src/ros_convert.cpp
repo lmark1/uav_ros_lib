@@ -17,6 +17,11 @@ double ros_convert::calculateYaw(double qx, double qy, double qz, double qw)
   return atan2(2 * (qw * qz + qx * qy), qw * qw + qx * qx - qy * qy - qz * qz);
 }
 
+double ros_convert::calculateYaw(const geometry_msgs::Quaternion &q)
+{
+  return calculateYaw(q.x, q.y, q.z, q.w);
+}
+
 geometry_msgs::PoseStamped ros_convert::get_pose_stamped(const tf2::Vector3 &translation,
   const tf2::Quaternion &rotation)
 {
