@@ -21,6 +21,15 @@ namespace ros_convert {
 double wrapMinMax(double x, double min, double max);
 
 /**
+ * @brief Unwrap two consectutive angles, without jumps.
+ * 
+ * @param previousAngle 
+ * @param newAngle 
+ * @return Unwrapped angle.
+ */
+double unwrap(double previousAngle,double newAngle);
+
+/**
  * @brief Calculate yaw from the given quaternion
  *
  * @param qx
@@ -38,6 +47,14 @@ double calculateYaw(double qx, double qy, double qz, double qw);
  * @return double 
  */
 double calculateYaw(const geometry_msgs::Quaternion& q);
+
+/**
+ * @brief Construct a new geometry msgs::Quaternion object from the given heading.
+ * 
+ * @param heading 
+ * @return A quaternion message.
+ */
+geometry_msgs::Quaternion calculate_quaternion(double heading);
 
 /**
  * @brief Get the geometry_msgs::PoseStamped from given translation and rotation.

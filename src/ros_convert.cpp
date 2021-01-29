@@ -1,5 +1,6 @@
 #include <uav_ros_lib/ros_convert.hpp>
 #include <cmath>
+#include <tf2/LinearMath/Quaternion.h>
 
 double wrapMax(double x, double max)
 {
@@ -102,4 +103,39 @@ std::tuple<double, double, double> ros_convert::extract_odometry(
   return {
     odom.pose.pose.position.x, odom.pose.pose.position.y, odom.pose.pose.position.z
   };
+}
+
+// Normalize to [-180,180):
+inline double constrainAngle(double x)
+{
+  x = fmod(x + M_PI, M_PI * 2);
+  if (x < 0) { x += M_PI * 2; }
+  return x - M_PI;
+}
+// convert to [-360,360]
+inline double angleConv(double angle) { return fmod(constrainAngle(angle), M_PI * 2); }
+
+inline double angleDiff(double a, double b)
+{
+  double dif = fmod(b - a + M_PI, M_PI * 2);
+  if (dif < 0) { dif += M_PI * 2; }
+  return dif - M_PI;
+}
+
+double ros_convert::unwrap(double newAngle, double previousAngle)
+{
+  return previousAngle - angleDiff(newAngle, angleConv(previousAngle));
+}
+
+geometry_msgs::Quaternion ros_convert::calculate_quaternion(double heading) 
+{
+  tf2::Quaternion q;
+  q.setRPY(0, 0, heading);
+
+  geometry_msgs::Quaternion q_msg;
+  q_msg.x = q.getX();
+  q_msg.y = q.getY();
+  q_msg.z = q.getZ();
+  q_msg.w = q.getW();
+  return q_msg;
 }
