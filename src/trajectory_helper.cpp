@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include <uav_ros_lib/trajectory/trajectory_helper.hpp>
 #include <uav_ros_lib/ros_convert.hpp>
 
@@ -65,4 +67,87 @@ std::vector<geometry_msgs::PoseStamped> trajectory_helper::interpolate_points(
     }
   }
   return result;
+}
+
+std::vector<std::string> split(const std::string &in, const char delim)
+{
+  std::vector<std::string> results;
+  std::string working;
+
+  for (const char c : in) {
+    if (c == delim || c == '\r' || c == '\n') {
+      results.push_back(working);
+      working.clear();
+    } else {
+      working.push_back(c);
+    }
+  }
+  results.push_back(working);
+  return results;
+}
+
+trajectory_msgs::MultiDOFJointTrajectory trajectory_helper::trajectory_from_csv(
+  const std::string &infile,
+  const std::string &frame_id = "mavros/world",
+  bool verbose = false)
+{
+  std::map<std::string, int> header_map;
+  std::map<int, std::vector<double>> result_map;
+
+  std::ifstream myFile(infile);
+  if (!myFile.is_open()) { throw std::runtime_error("Could not open file"); }
+
+  std::string line, colname;
+  if (myFile.good()) {
+    std::getline(myFile, line);
+    int index = 0;
+
+    std::vector<std::string> split_result = split(line, ',');
+    for (const auto &result : split_result) {
+      if (result.empty()) { continue; }
+
+      header_map.emplace(result, index);
+      result_map.emplace(index, std::vector<double>{});
+      if (verbose) { std::cout << "Colname: " << result << " Index: " << index << "\n"; }
+      index++;
+    }
+  }
+
+  const int t_x_index = header_map.at("t_x");
+  const int t_y_index = header_map.at("t_y");
+  const int t_z_index = header_map.at("t_z");
+  const int q_x_index = header_map.at("q_x");
+  const int q_y_index = header_map.at("q_y");
+  const int q_z_index = header_map.at("q_z");
+  const int q_w_index = header_map.at("q_w");
+
+  double val;
+  trajectory_msgs::MultiDOFJointTrajectory trajectory;
+  while (std::getline(myFile, line)) {
+    std::stringstream ss(line);
+
+    int colIdx = 0;
+    while (ss >> val) {
+      if (verbose) { std::cout << val << " "; }
+      result_map[colIdx].push_back(val);
+      if (ss.peek() == ',') { ss.ignore(); }
+      colIdx++;
+    }
+    trajectory.points.emplace_back(
+      ros_convert::to_trajectory_point(result_map.at(t_x_index).back(),
+        result_map.at(t_y_index).back(),
+        result_map.at(t_z_index).back(),
+        result_map.at(q_x_index).back(),
+        result_map.at(q_y_index).back(),
+        result_map.at(q_z_index).back(),
+        result_map.at(q_w_index).back()));
+    if (verbose) { std::cout << "\n"; }
+  }
+
+  // Close file
+  myFile.close();
+
+  trajectory.header.stamp = ros::Time::now();
+  trajectory.header.frame_id = frame_id;
+  return trajectory;
 }

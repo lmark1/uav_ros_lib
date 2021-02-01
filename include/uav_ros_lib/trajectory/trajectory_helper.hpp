@@ -42,14 +42,27 @@ trajectory_msgs::MultiDOFJointTrajectory generate_circle_trajectory(double t_x,
 
 /**
  * @brief Interpolate points in the given vector.
- * 
+ *
  * @param input Input PoseStamped vector
  * @param interpolate_count
- * @return std::vector<geometry_msgs::PoseStamped> 
+ * @return std::vector<geometry_msgs::PoseStamped>
  */
 std::vector<geometry_msgs::PoseStamped> interpolate_points(
   const std::vector<geometry_msgs::PoseStamped> &input,
   int interpolate_count = 50);
+
+/**
+ * @brief Load trajectory points from given csv file.
+ * 
+ * @param infile CSV input file
+ * @param frame_id Frame ID
+ * @param verbose 
+ * @return trajectory_msgs::MultiDOFJointTrajectory 
+ */
+trajectory_msgs::MultiDOFJointTrajectory trajectory_from_csv(
+  const std::string &infile,
+  const std::string &frame_id,
+  bool verbose);
 
 }// namespace trajectory_helper
 
