@@ -72,7 +72,7 @@ geometry_msgs::PoseStamped get_pose_stamped(const tf2::Vector3 &translation,
  * @param pose Given Pose
  * @return tf2::Vector3
  */
-inline tf2::Vector3 vector_from_pose(const geometry_msgs::Pose &pose);
+tf2::Vector3 vector_from_pose(const geometry_msgs::Pose &pose);
 
 /**
  * @brief Get tf2::Quaternion from the given geometry_msgs::Pose.
@@ -80,7 +80,7 @@ inline tf2::Vector3 vector_from_pose(const geometry_msgs::Pose &pose);
  * @param pose Given Pose
  * @return tf2::Quaternion
  */
-inline tf2::Quaternion quaternion_from_pose(const geometry_msgs::Pose &pose);
+tf2::Quaternion quaternion_from_pose(const geometry_msgs::Pose &pose);
 
 /**
  * @brief Get the Heading Quaternion from the given start to the end coordinates.

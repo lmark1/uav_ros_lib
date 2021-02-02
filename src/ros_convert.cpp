@@ -37,12 +37,12 @@ geometry_msgs::PoseStamped ros_convert::get_pose_stamped(const tf2::Vector3 &tra
   return p;
 }
 
-inline tf2::Vector3 ros_convert::vector_from_pose(const geometry_msgs::Pose &pose)
+tf2::Vector3 ros_convert::vector_from_pose(const geometry_msgs::Pose &pose)
 {
   return { pose.position.x, pose.position.y, pose.position.z };
 }
 
-inline tf2::Quaternion ros_convert::quaternion_from_pose(const geometry_msgs::Pose &pose)
+tf2::Quaternion ros_convert::quaternion_from_pose(const geometry_msgs::Pose &pose)
 {
   return {
     pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w
