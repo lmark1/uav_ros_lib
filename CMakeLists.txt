@@ -51,7 +51,7 @@ add_library(ros_convert src/ros_convert.cpp)
 target_link_libraries(ros_convert ${catkin_LIBRARIES})
 
 # Trajectory helper library
-add_library(trajectory_helper src/ros_convert.cpp)
+add_library(trajectory_helper src/trajectory_helper.cpp)
 target_link_libraries(trajectory_helper ${catkin_LIBRARIES} ros_convert)
 
 # Global to local transformation library

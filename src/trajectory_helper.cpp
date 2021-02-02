@@ -69,6 +69,58 @@ std::vector<geometry_msgs::PoseStamped> trajectory_helper::interpolate_points(
   return result;
 }
 
+trajectory_msgs::MultiDOFJointTrajectory trajectory_helper::interpolate_points(
+  const trajectory_msgs::MultiDOFJointTrajectory &input,
+  double step_size)
+{
+  trajectory_msgs::MultiDOFJointTrajectory interpolated_trajectory;
+
+  for (int i = 0; i < input.points.size() - 1; i++) {
+
+    geometry_msgs::Vector3 curr_point;
+    geometry_msgs::Quaternion curr_rot;
+
+    if (interpolated_trajectory.points.empty()) {
+      curr_point = input.points.at(i).transforms.front().translation;
+      curr_rot = input.points.at(i).transforms.front().rotation;
+    } else {
+      curr_point = interpolated_trajectory.points.back().transforms.front().translation;
+      curr_rot = interpolated_trajectory.points.back().transforms.front().rotation;
+    }
+
+    const auto next_point = input.points.at(i + 1).transforms.front().translation;
+    const auto next_rot = input.points.at(i + 1).transforms.front().rotation;
+
+    const auto curr_vec = tf2::Vector3(curr_point.x, curr_point.y, curr_point.z);
+    const auto next_vec = tf2::Vector3(next_point.x, next_point.y, next_point.z);
+
+    const auto curr_q = tf2::Quaternion(curr_rot.x, curr_rot.y, curr_rot.z, curr_rot.w);
+    const auto next_q = tf2::Quaternion(next_rot.x, next_rot.y, next_rot.z, next_rot.w);
+
+    auto distance =
+      sqrt(pow(curr_point.x - next_point.x, 2) + pow(curr_point.y - next_point.y, 2)
+           + pow(curr_point.z - next_point.z, 2));
+
+    double interpolate_count = floor(distance / step_size);
+    std::cout << "dist: " << distance << " step_size: " << step_size << "\n";
+    for (int j = 0; j < interpolate_count; j++) {
+      double ratio = j / interpolate_count;
+      tf2::Vector3 v;
+      v.setInterpolate3(curr_vec, next_vec, ratio);
+      auto q = tf2::slerp(curr_q, next_q, ratio);
+      interpolated_trajectory.points.push_back(ros_convert::to_trajectory_point(
+        v.x(), v.y(), v.z(), q.x(), q.y(), q.z(), q.w()));
+    }
+
+    if (i == 0 && interpolated_trajectory.points.empty()) {
+      interpolated_trajectory.points.push_back(input.points.at(i));
+    } 
+  }
+
+  interpolated_trajectory.points.push_back(input.points.back());
+  return interpolated_trajectory;
+}
+
 std::vector<std::string> split(const std::string &in, const char delim)
 {
   std::vector<std::string> results;

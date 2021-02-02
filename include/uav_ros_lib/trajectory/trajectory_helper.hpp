@@ -41,10 +41,10 @@ trajectory_msgs::MultiDOFJointTrajectory generate_circle_trajectory(double t_x,
   double t_circleRadius = 1);
 
 /**
- * @brief Interpolate points in the given vector.
+ * @brief Interpolate points in the given vector based on the given number of points.
  *
  * @param input Input PoseStamped vector
- * @param interpolate_count
+ * @param interpolate_count Number of points added in between
  * @return std::vector<geometry_msgs::PoseStamped>
  */
 std::vector<geometry_msgs::PoseStamped> interpolate_points(
@@ -52,15 +52,25 @@ std::vector<geometry_msgs::PoseStamped> interpolate_points(
   int interpolate_count = 50);
 
 /**
- * @brief Load trajectory points from given csv file.
+ * @brief Interpolate trajectory points based on the given step size
  * 
- * @param infile CSV input file
- * @param frame_id Frame ID
- * @param verbose 
+ * @param input 
+ * @param step_size Minimum distance between two points
  * @return trajectory_msgs::MultiDOFJointTrajectory 
  */
-trajectory_msgs::MultiDOFJointTrajectory trajectory_from_csv(
-  const std::string &infile,
+trajectory_msgs::MultiDOFJointTrajectory interpolate_points(
+  const trajectory_msgs::MultiDOFJointTrajectory &input,
+  double step_size);
+  
+/**
+ * @brief Load trajectory points from given csv file.
+ *
+ * @param infile CSV input file
+ * @param frame_id Frame ID
+ * @param verbose
+ * @return trajectory_msgs::MultiDOFJointTrajectory
+ */
+trajectory_msgs::MultiDOFJointTrajectory trajectory_from_csv(const std::string &infile,
   const std::string &frame_id,
   bool verbose);
 
