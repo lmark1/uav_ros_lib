@@ -71,7 +71,8 @@ std::vector<geometry_msgs::PoseStamped> trajectory_helper::interpolate_points(
 
 trajectory_msgs::MultiDOFJointTrajectory trajectory_helper::interpolate_points(
   const trajectory_msgs::MultiDOFJointTrajectory &input,
-  double step_size)
+  double step_size_xy,
+  double step_size_z)
 {
   trajectory_msgs::MultiDOFJointTrajectory interpolated_trajectory;
 
@@ -101,10 +102,23 @@ trajectory_msgs::MultiDOFJointTrajectory trajectory_helper::interpolate_points(
       sqrt(pow(curr_point.x - next_point.x, 2) + pow(curr_point.y - next_point.y, 2)
            + pow(curr_point.z - next_point.z, 2));
 
-    double interpolate_count = floor(distance / step_size);
-    std::cout << "dist: " << distance << " step_size: " << step_size << "\n";
-    for (int j = 0; j < interpolate_count; j++) {
+    // Figure out in which way does the trajectory move the most and interpolat with the
+    // appropriate step size
+    double interpolate_count = ceil(distance / step_size_xy);
+    tf2::Vector3 diff = (next_vec - curr_vec);
+    auto diff_abs_z = abs(diff.getZ());
+    auto diff_abs_y = abs(diff.getY());
+    auto diff_abs_x = abs(diff.getX());
+    if (diff_abs_z > diff_abs_x && diff_abs_z > diff_abs_y) {
+      interpolate_count = ceil(distance / step_size_z);
+    }
+
+    int j = 0;
+    if (!interpolated_trajectory.points.empty()) { j = 1; }
+
+    for (; j < interpolate_count; j++) {
       double ratio = j / interpolate_count;
+      std::cout << "ratio: " << ratio << "\n";
       tf2::Vector3 v;
       v.setInterpolate3(curr_vec, next_vec, ratio);
       auto q = tf2::slerp(curr_q, next_q, ratio);
@@ -114,7 +128,7 @@ trajectory_msgs::MultiDOFJointTrajectory trajectory_helper::interpolate_points(
 
     if (i == 0 && interpolated_trajectory.points.empty()) {
       interpolated_trajectory.points.push_back(input.points.at(i));
-    } 
+    }
   }
 
   interpolated_trajectory.points.push_back(input.points.back());

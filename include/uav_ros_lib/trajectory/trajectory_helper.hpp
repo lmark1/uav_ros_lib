@@ -55,12 +55,13 @@ std::vector<geometry_msgs::PoseStamped> interpolate_points(
  * @brief Interpolate trajectory points based on the given step size
  * 
  * @param input 
- * @param step_size Minimum distance between two points
+ * @param step_size_xy Minimum distance between two points in the xy plane
+ * @param step_size_z Minimum distance between two points along the z axis
  * @return trajectory_msgs::MultiDOFJointTrajectory 
  */
 trajectory_msgs::MultiDOFJointTrajectory interpolate_points(
   const trajectory_msgs::MultiDOFJointTrajectory &input,
-  double step_size);
+  double step_size_xy, double step_size_z);
   
 /**
  * @brief Load trajectory points from given csv file.
