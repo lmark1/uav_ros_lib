@@ -30,6 +30,15 @@ double wrapMinMax(double x, double min, double max);
 double unwrap(double previousAngle,double newAngle);
 
 /**
+ * @brief Calculate angle difference between 2 angles
+ * 
+ * @param a First Angle
+ * @param b Second Angle
+ * @return Angle Difference
+ */
+double angleDiff(double a, double b);
+
+/**
  * @brief Calculate yaw from the given quaternion
  *
  * @param qx

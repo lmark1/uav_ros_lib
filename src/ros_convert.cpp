@@ -115,7 +115,7 @@ inline double constrainAngle(double x)
 // convert to [-360,360]
 inline double angleConv(double angle) { return fmod(constrainAngle(angle), M_PI * 2); }
 
-inline double angleDiff(double a, double b)
+double ros_convert::angleDiff(double a, double b)
 {
   double dif = fmod(b - a + M_PI, M_PI * 2);
   if (dif < 0) { dif += M_PI * 2; }
