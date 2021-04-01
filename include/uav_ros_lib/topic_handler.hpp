@@ -20,6 +20,17 @@ template<class T> class TopicHandler
 public:
   using Ptr = std::unique_ptr<TopicHandler<T>>;
 
+  template <typename Obj>
+  static TopicHandler<T>::Ptr CreateTopicHandler(ros::NodeHandle &t_nh,
+    std::string t_topicName,
+    void (Obj::*message_callback)(const typename T::ConstPtr &),
+    Obj *object,
+    const double t_timeoutDuration = 2)
+  {
+    return std::make_unique<TopicHandler<T>>(
+      t_nh, t_topicName, message_callback, object, t_timeoutDuration);
+  }
+
   /**
    * @brief Construct a new Topic Handler object. Does nothing.
    *
@@ -97,7 +108,7 @@ public:
    */
   const T &getData() const
   {
-    std::scoped_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    
     return *m_data;
   }
 
@@ -109,7 +120,7 @@ public:
    */
   bool isResponsive() const
   {
-    std::scoped_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    
     return m_isResponsive;
   }
 
@@ -121,14 +132,14 @@ public:
    */
   bool isMessageRecieved() const
   {
-    std::scoped_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    
     return m_messageRecieved;
   }
 
 private:
   void callback(const typename T::ConstPtr &msg)
   {
-    std::scoped_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    
     m_data = msg;
     m_lastMessgeTime = ros::Time::now().toSec();
     m_messageRecieved = true;
@@ -137,7 +148,7 @@ private:
 
   void watchdog_callback(const ros::TimerEvent & /* unused */)
   {
-    std::scoped_lock<std::recursive_mutex> lock(m_recursive_mutex);
+    
     double elapsedTime = ros::Time::now().toSec() - m_lastMessgeTime;
     if (elapsedTime > m_topicTimeout) {
       m_isResponsive = false;
@@ -147,7 +158,6 @@ private:
     }
   }
 
-  std::recursive_mutex m_recursive_mutex;
   ros::Timer m_watchdogTimer;
   double m_topicTimeout, m_lastMessgeTime;
   bool m_isResponsive, m_messageRecieved;
